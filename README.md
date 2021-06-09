@@ -14,10 +14,12 @@ make things more repeatable, consistent, and reduce the amount of manual interve
 1. Use `.github/workflows/java-ci.yml` as a start
     - OR  Go to the actions tab within GitHub and make your own
         - Select the Java with Maven starter workflow (or set one up yourself)
-        - Take note of the editor (we won't go into much detail here but you can bring in new actions and refer to GitHub's
+        - Take note of the editor (we won't go into much detail here but, you can bring in new actions and refer to GitHub's
         [documentation](https://github.blog/2019-10-01-new-workflow-editor-for-github-actions/))
 1. Make some slight changes to make sure it's going to publish something
-    - For the build workflow. Need to add:
+    - For the build workflow, make sure the trigger events so that it triggers based on pushes to `1-build` 
+    branch.
+    - Then replace the `Build with Maven` step with the following:
     ```
     - name: Build with Maven
       run: |
@@ -49,7 +51,7 @@ This is something that happens from time to time. This is why it's encouraged to
 1. Commit and run the pipeline again
 1. Going back to our original goal, look at your packaged artifact
     - Why is this valuable? Because it gives you the ability to store previous builds and rollback whenever necessary
-    while also giving you better ability to test certain revisions if necessary
+    while also giving you better ability to test certain revisions if necessary.
     
 Now that we know when things start to get out of hand just by having our build run, let's look at deploying this thing
 
@@ -101,10 +103,12 @@ exist as part of the pipeline)
 ---
 
 ### Gotchas
+- GitHub workflow yml files are whitespace sensitive, make sure your indentation matches the editor (may not directly 
+line up with the code in this README)
 - If you create a workflow via GitHub be sure to update your local branch with `git pull --rebase origin <current_branch`
 before pushing
 - Be sure that you're pointing to your own GitHub user/repo (especially if you name it something different)
-- Make sure that your workflow triggers are specific to the 1-build branch. Otherwise, you likely won't see them kickoff
+- Make sure that your workflow triggers include the current branch. Otherwise, you likely won't see them kickoff
 when you expect. Example trigger shown below:
 ```
 on:
